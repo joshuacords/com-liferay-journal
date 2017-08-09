@@ -929,11 +929,25 @@ public class JournalDisplayContext {
 
 					if (className.equals(JournalArticle.class.getName())) {
 						if (!showVersions) {
-							article =
-								JournalArticleLocalServiceUtil.
-									fetchLatestArticle(
-										classPK, WorkflowConstants.STATUS_ANY,
-										false);
+							int status = getStatus();
+
+							if (status == WorkflowConstants.STATUS_ANY) {
+								int[] statuses = new int[] {
+									WorkflowConstants.STATUS_APPROVED,
+									WorkflowConstants.STATUS_DRAFT,
+									WorkflowConstants.STATUS_PENDING
+								};
+
+								article =
+									JournalArticleLocalServiceUtil.
+										fetchLatestArticle(classPK, statuses);
+							}
+							else {
+								article =
+									JournalArticleLocalServiceUtil.
+										fetchLatestArticle(
+											classPK, getStatus(), false);
+							}
 						}
 						else {
 							String articleId = document.get(Field.ARTICLE_ID);
