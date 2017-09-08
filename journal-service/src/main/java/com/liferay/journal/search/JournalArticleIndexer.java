@@ -217,7 +217,10 @@ public class JournalArticleIndexer
 			contextBooleanFilter.addRequiredTerm("head", Boolean.TRUE);
 		}
 
-		if (!relatedClassName && showNonindexable) {
+		if (latest && !relatedClassName && showNonindexable) {
+			contextBooleanFilter.addRequiredTerm("latest", Boolean.TRUE);
+		}
+		else if (!relatedClassName && showNonindexable) {
 			contextBooleanFilter.addRequiredTerm("headListable", Boolean.TRUE);
 		}
 	}
